@@ -39,9 +39,9 @@ class TicketsService {
   async removeTicket(ticketId, userId) {
     const toBeDeleted = await dbContext.Tickets.findById(ticketId);
     if (toBeDeleted.accountId != userId) { throw new Forbidden('UNAUTHORIZED REQUEST: Not your ticket to remove') }
-    const results = await dbContext.Tickets.remove(ticketId);
+    const results = await dbContext.Tickets.remove(toBeDeleted);
     logger.log('[TICKETS SERVICE] removeTicket(): ', results);
-    return toBeDeleted
+    return results
   }
 
   async updateTicket(ticketId, newData, userId) {
