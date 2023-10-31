@@ -20,15 +20,19 @@ function _captureData(newData) {
 class TowerEventsService {
 
   async getTowerEvents(query) {
-    const towerEvents = await dbContext.TowerEvents.find(query).populate('creator', 'name picture');
-    logger.log('[TOWER-EVENTS SERVICE] getTowerEvents(): ', towerEvents);
+    const towerEvents = await dbContext.TowerEvents.find(query)
+      .populate('creator', 'name picture')
+      .populate('ticketCount');
+    // logger.log('[TOWER-EVENTS SERVICE] getTowerEvents(): ', towerEvents);
     return towerEvents
   }
 
   async getTowerEventById(towerEventId) {
-    const towerEvent = await dbContext.TowerEvents.findById(towerEventId).populate('creator', 'name picture');
+    const towerEvent = await dbContext.TowerEvents.findById(towerEventId)
+      .populate('creator', 'name picture')
+      .populate('ticketCount');
     if (!towerEvent) { throw new BadRequest(`No towerEvent with ID: ${towerEventId}`) }
-    logger.log('[TOWER-EVENTS SERVICE] getTowerEventById(): ', towerEvent);
+    // logger.log('[TOWER-EVENTS SERVICE] getTowerEventById(): ', towerEvent);
     return towerEvent
   }
 
@@ -36,8 +40,9 @@ class TowerEventsService {
 
   async createTowerEvent(body) {
     const newTowerEvent = await dbContext.TowerEvents.create(body);
-    newTowerEvent.populate('creator', 'name picture')
-    logger.log('[TOWER-EVENTS SERVICE] createTowerEvent(): ', newTowerEvent);
+    newTowerEvent.populate('creator', 'name picture');
+    newTowerEvent.populate('ticketCount');
+    // logger.log('[TOWER-EVENTS SERVICE] createTowerEvent(): ', newTowerEvent);
     return newTowerEvent
   }
 
@@ -46,7 +51,7 @@ class TowerEventsService {
     if (toBeDeleted.creatorId != userId) { throw new Forbidden('UNAUTHORIZED REQUEST: Not your towerEvent to remove') }
     const results = await dbContext.TowerEvents.remove(toBeDeleted);
     logger.log('[TOWER-EVENTS SERVICE] removeTowerEvent(): ', results);
-    return toBeDeleted
+    return results
   }
 
   async updateTowerEvent(towerEventId, newData, userId) {
