@@ -1,19 +1,18 @@
-
 import { Auth0Provider } from "@bcwdev/auth0provider"
 import BaseController from "../utils/BaseController.js"
 import { towerEventsService } from "../services/TowerEventsService.js"
 
 export class TowerEventsController extends BaseController {
   constructor() {
-    super('api/TowerEvents')
+    super('api/events')
     this.router
       .get('', this.getTowerEvents)
-      .get('/:towerEventId', this.getTowerEventById)
+      .get('/:eventId', this.getTowerEventById)
       // 🔽 REQUIRES AUTHENTICATION 🔽
       .use(Auth0Provider.getAuthorizedUserInfo)
       .post('', this.createTowerEvent)
-      .put('/:towerEventId', this.updateTowerEvent)
-      .delete('/:towerEventId', this.removeTowerEvent)
+      .put('/:eventId', this.updateTowerEvent)
+      .delete('/:eventId', this.removeTowerEvent)
   }
 
   async getTowerEvents(req, res, nxt) {
@@ -27,7 +26,7 @@ export class TowerEventsController extends BaseController {
 
   async getTowerEventById(req, res, nxt) {
     try {
-      const towerEvents = await towerEventsService.getTowerEventById(req.params.towerEventId);
+      const towerEvents = await towerEventsService.getTowerEventById(req.params.eventId);
       return res.send(towerEvents)
     } catch (error) {
       nxt(error)
@@ -48,7 +47,7 @@ export class TowerEventsController extends BaseController {
 
   async updateTowerEvent(req, res, nxt) {
     try {
-      const toBeUpdated = await towerEventsService.updateTowerEvent(req.params.towerEventId, req.body, req.userInfo.id);
+      const toBeUpdated = await towerEventsService.updateTowerEvent(req.params.eventId, req.body, req.userInfo.id);
       return res.send(toBeUpdated)
     } catch (error) {
       nxt(error)
@@ -57,8 +56,8 @@ export class TowerEventsController extends BaseController {
 
   async removeTowerEvent(req, res, nxt) {
     try {
-      const toBeDeleted = await towerEventsService.removeTowerEvent(req.params.towerEventId, req.userInfo.id);
-      return res.send('Removed from DB: ', toBeDeleted)
+      const toBeDeleted = await towerEventsService.removeTowerEvent(req.params.eventId, req.userInfo.id);
+      return res.send(toBeDeleted)
     } catch (error) {
       nxt(error)
     }

@@ -44,7 +44,7 @@ class TowerEventsService {
   async removeTowerEvent(towerEventId, userId) {
     const toBeDeleted = await dbContext.TowerEvents.findById(towerEventId);
     if (toBeDeleted.creatorId != userId) { throw new Forbidden('UNAUTHORIZED REQUEST: Not your towerEvent to remove') }
-    const results = await dbContext.TowerEvents.remove(towerEventId);
+    const results = await dbContext.TowerEvents.remove(toBeDeleted);
     logger.log('[TOWER-EVENTS SERVICE] removeTowerEvent(): ', results);
     return toBeDeleted
   }
