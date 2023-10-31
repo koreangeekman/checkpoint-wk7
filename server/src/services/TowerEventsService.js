@@ -5,9 +5,14 @@ import { logger } from "../utils/Logger.js";
 function _captureData(newData) {
   const updateable = {
     // DEFINE THE PROPERTIES ALLOWED TO UPDATE BELOW
-    body: newData.body,
-    color: newData.color,
-    projectId: newData.projectId,
+    name: newData.name,
+    description: newData.description,
+    coverImg: newData.coverImg,
+    location: newData.location,
+    capacity: newData.capacity,
+    startDate: newData.startDate,
+    isCancelled: newData.isCancelled,
+    type: newData.type
   }
   return updateable
 }
