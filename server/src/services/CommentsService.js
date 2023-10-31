@@ -42,7 +42,7 @@ class CommentsService {
     if (toBeDeleted.creatorId != userId) { throw new Forbidden('UNAUTHORIZED REQUEST: Not your comment to remove') }
     const results = await dbContext.Comments.remove(commentId);
     logger.log('[COMMENTS SERVICE] removeComment(): ', results);
-    return toBeDeleted
+    return results
   }
 
   async updateComment(commentId, newData, userId) {

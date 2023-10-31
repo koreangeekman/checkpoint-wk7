@@ -11,7 +11,7 @@ function _captureData(newData) {
     location: newData.location,
     capacity: newData.capacity,
     startDate: newData.startDate,
-    isCancelled: newData.isCancelled,
+    isCanceled: newData.isCanceled,
     type: newData.type
   }
   return updateable

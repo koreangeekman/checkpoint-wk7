@@ -57,7 +57,7 @@ export class CommentsController extends BaseController {
   async removeComment(req, res, nxt) {
     try {
       const toBeDeleted = await commentsService.removeComment(req.params.commentId, req.userInfo.id);
-      return res.send('Removed from DB: ', toBeDeleted)
+      return res.send(toBeDeleted)
     } catch (error) {
       nxt(error)
     }
