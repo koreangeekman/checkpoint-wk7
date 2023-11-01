@@ -2,16 +2,8 @@
   <div class="container-fluid">
     <section class="row">
       <main class="col-11 p-3">
-        <section class="row">
-          <div class="col-12">
-            <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-              <img alt="logo" src="./assets/img/cw-logo.png" height="45" />
-            </router-link>
-          </div>
-        </section>
-          
+        <PageTopper />
         <router-view />
-          
       </main>
       <header class="col p-0 m-0">
         <Navbar />
@@ -25,6 +17,7 @@
 import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
+import PageTopper from "./components/PageTopper.vue"
 
 export default {
   setup() {
@@ -33,7 +26,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar }
+  components: { Navbar, PageTopper }
 }
 </script>
 
