@@ -8,7 +8,7 @@ function _captureData(newData) {
     // DEFINE THE PROPERTIES ALLOWED TO UPDATE BELOW
     name: newData.name,
     description: newData.description,
-    isCanceled: newData.isCanceled,
+    // isCanceled: newData.isCanceled,
     coverImg: newData.coverImg,
     location: newData.location,
     capacity: newData.capacity,

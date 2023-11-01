@@ -20,8 +20,8 @@
   </section>
   
   <section class="row">
-    <div class="col-3 p-0">
-      <div v-for="towerEvent in events" :key="towerEvent.id" class="card m-3 p-0">
+    <div v-for="towerEvent in events" :key="towerEvent.id" class="col-3 p-0">
+      <div class="card m-3 p-0">
         <EventCard :towerEvent="towerEvent" />
       </div>
     </div>
