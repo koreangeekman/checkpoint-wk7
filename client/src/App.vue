@@ -1,16 +1,17 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <main class="col-10 p-3">
-
-        <div class="col-12">
-          <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
+      <main class="col-11 p-3">
+        <section class="row">
+          <div class="col-12">
+            <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
               <img alt="logo" src="./assets/img/cw-logo.png" height="45" />
-          </router-link>
-        </div>
-
+            </router-link>
+          </div>
+        </section>
+          
         <router-view />
-
+          
       </main>
       <header class="col p-0 m-0">
         <Navbar />

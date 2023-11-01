@@ -1,39 +1,64 @@
 <template>
-  <div class="col-12 banner rounded border-line my-3 p-5">
-    <div class="p-3 shadow bgBlur rounded">
-      <p class="fs-2 mb-0">
-        Get ahead of the scalpers. <br>
-        Reserve your seat now with <br>
-        real events for real people.
-      </p>
+  <section class="row p-3">
+    <div class="col-12 banner rounded shadow border-line p-5">
+      <div class="p-3 shadow bgBlur rounded">
+        <p class="fs-2 mb-0">
+          Get ahead of the scalpers. <br>
+          Reserve your seat now with <br>
+          real events for real people.
+        </p>
+      </div>
     </div>
-  </div>
-
-  <div class="col-12 rounded shadow my-3 p-3 d-flex justify-content-evenly btn-bg">
-    <button class="btn text-white border" @click="changeType('')">ALL</button>
-    <button v-for="eventType in types" :key="eventType" class="btn text-white" @click="changeType()">
-    {{ eventType.toUpperCase() }}
-    </button>
-  </div>
-
-  <div class="col-3">
-    <div class="card">
-      .
+  </section>
+  <section class="row px-3">
+    <div class="col-12 rounded shadow p-2 d-flex justify-content-evenly greyBG">
+      <button class="btn text-white border" @click="changeType('')">ALL</button>
+      <button v-for="eventType in types" :key="eventType" class="btn text-white" @click="changeType()">
+        {{ eventType.toUpperCase() }}
+      </button>
     </div>
-  </div>
+  </section>
+  
+  <section class="row">
+    <div class="col-3 p-0">
+      <div v-for="towerEvent in events" :key="towerEvent.id" class="card m-3 p-0">
+        <EventCard :towerEvent="towerEvent" />
+      </div>
+    </div>
+  </section>
 
 </template>
 
 <script>
+import { computed, onMounted } from "vue";
+import { logger } from "../utils/Logger";
+import { AppState } from "../AppState.js";
+import { towerEventsService } from "../services/TowerEventsService.js";
+import EventCard from "../components/EventCard.vue";
+
 export default {
   setup() {
     const types = ['concert', 'convention', 'sport', 'digital']
 
+    async function _getEvents() {
+      try {
+        await towerEventsService.getEvents();
+      } catch (error) {
+        logger.error(error);
+      }
+    }
+
+    onMounted(() => {
+      _getEvents();
+    })
     return {
       types,
+
+      events: computed(()=> AppState.events)
       
     }
-  }
+  },
+  components: {EventCard}
 }
 </script>
 
@@ -57,8 +82,11 @@ export default {
   width: fit-content;
 }
 
-.btn-bg{
+.greyBG{
   background-color: #474c61;
+}
+.card{
+  border: 3px solid #474c61;
 }
 
 .border-line{
