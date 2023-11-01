@@ -1,13 +1,14 @@
 <template>
-  <header>
-    <Navbar />
-  </header>
-  <main>
-    <router-view />
-  </main>
-   <footer class="bg-dark text-light">
-    Made with 💖 by CodeWorks
-  </footer>
+  <div class="container-fluid">
+    <section class="row">
+      <main class="col-11">
+        <router-view />
+      </main>
+      <header class="col-1">
+        <Navbar />
+      </header>
+    </section>
+  </div>
 </template>
 
 <script>

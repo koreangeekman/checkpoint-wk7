@@ -71,6 +71,7 @@ class TowerEventsService {
   async updateTowerEvent(eventId, newData, userId) {
     const toBeUpdated = await dbContext.TowerEvents.findById(eventId);
     if (toBeUpdated.creatorId != userId) { throw new Forbidden('UNAUTHORIZED REQUEST: Not your towerEvent to update') }
+    if (toBeUpdated.isCanceled) { throw new BadRequest('INVALID REQUEST: Cannot edit canceled events') }
     const update = _captureData(newData);
     const updated = await dbContext.TowerEvents.findOneAndUpdate(
       { _id: eventId },
