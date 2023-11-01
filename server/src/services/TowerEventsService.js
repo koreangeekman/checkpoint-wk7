@@ -41,6 +41,15 @@ class TowerEventsService {
     return towerEvent
   }
 
+  async getEventsByAccountId(accountId) {
+    const towerEvents = await dbContext.TowerEvents.find({ accountId })
+      .populate('creator', 'name picture')
+      .populate('ticketCount');
+    if (!towerEvents) { throw new BadRequest(`No towerEvents with ID: ${accountId}`) }
+    // logger.log('[TOWER-EVENTS SERVICE] getEventsByAccountId(): ', towerEvents);
+    return towerEvents
+  }
+
   // 🔽 REQUIRES AUTHENTICATION 🔽
 
   async createTowerEvent(body) {

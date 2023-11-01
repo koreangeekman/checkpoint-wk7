@@ -30,6 +30,14 @@ class CommentsService {
     return comment
   }
 
+  async getCommentsByAccountId(accountId) {
+    const comments = await dbContext.Comments.find({ accountId })
+      .populate('creator', 'name picture');
+    if (!comments) { throw new BadRequest(`No comment with Account ID: ${accountId}`) }
+    logger.log('[COMMENTS SERVICE] getCommentsByAccountId(): ', comments);
+    return comments
+  }
+
   async getCommentsByTowerEventId(eventId) {
     const comments = await dbContext.Comments.find({ eventId })
       .populate('creator', 'name picture');

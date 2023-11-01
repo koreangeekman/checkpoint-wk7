@@ -6,13 +6,16 @@ import { api } from "./AxiosService";
 
 class TowerEventsService{
 
+  clearData() {
+    AppState.events = [];
+  }
+
   async getEvents() {
     const res = await api.get('api/events');
     const events = res.data.map(towerEvent => new TowerEvent(towerEvent));
     AppState.events = events;
     logger.log('[TOWER EVENTS SERVICE] getEvents(): ', events);
   }
-
 
   async getCommentsByEventId(eventId) {
     const res = await api.get(`api/events/${eventId}/comments`);

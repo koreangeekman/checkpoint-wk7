@@ -25,7 +25,9 @@
 import { computed, onMounted } from 'vue';
 import { AppState } from '../AppState';
 import EventCard from "../components/EventCard.vue";
-import { towerEventsService } from "../services/TowerEventsService";
+import { accountService } from "../services/AccountService.js";
+import { ticketsService } from "../services/TicketsService.js";
+import { towerEventsService } from "../services/TowerEventsService.js";
 import { logger } from "../utils/Logger";
 
 export default {
@@ -33,7 +35,7 @@ export default {
 
     async function _getEventsByAccountId() {
       try {
-        await towerEventsService.getEventsByAccountId();
+        await accountService.getEventsByAccountId();
       } catch (error) {
         logger.error(error);
       }
@@ -41,13 +43,15 @@ export default {
 
     async function _getTicketsByAccountId() {
       try {
-        await towerEventsService.getTicketsByAccountId();
+        await accountService.getTicketsByAccountId();
       } catch (error) {
         logger.error(error);
       }
     }
 
     onMounted(() => {
+      towerEventsService.clearData();
+      ticketsService.clearData();
       _getEventsByAccountId();
       _getTicketsByAccountId();
     })
