@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid">
     <section class="row">
-      <main class="col-11 p-3">
+      <main class="col-12 col-md-11 p-3">
         <PageTopper :name="appState.account.name" />
         <router-view />
       </main>

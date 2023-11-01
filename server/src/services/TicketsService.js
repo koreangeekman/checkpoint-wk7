@@ -33,7 +33,7 @@ class TicketsService {
   async getTicketsByTowerEventId(eventId) {
     const tickets = await dbContext.Tickets.find({ eventId })
       .populate('profile', 'name picture')
-      .populate('event', 'name coverImg isCanceled');
+      .populate('event', 'name coverImg isCanceled location startDate');
     // if (!tickets) { throw new BadRequest(`No tickets with TowerEvent ID: ${eventId}`) }
     logger.log('[TICKETS SERVICE] getTicketsByTowerEventId(): ', tickets);
     return tickets
@@ -42,9 +42,9 @@ class TicketsService {
   async getTicketsByAccountId(accountId) {
     const tickets = await dbContext.Tickets.find({ accountId })
       .populate('profile', 'name picture')
-      .populate('event', 'name coverImg isCanceled');
+      .populate('event', 'name coverImg isCanceled location startDate');
     // if (!tickets) { throw new BadRequest(`No tickets with TowerEvent ID: ${eventId}`) }
-    logger.log('[TICKETS SERVICE] getTicketsByTowerEventId(): ', tickets);
+    logger.log('[TICKETS SERVICE] getTicketsByAccountId(): ', tickets);
     return tickets
   }
 
