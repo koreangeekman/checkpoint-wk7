@@ -1,40 +1,36 @@
 <template>
   <span class="navbar-text">
 
-    <button class="btn selectable text-success lighten-30 text-uppercase my-2 my-lg-0" @click="login"
-      v-if="!user.isAuthenticated">
-      Login
-    </button>
+    <div v-if="!user.isAuthenticated">
+      <button class="btn selectable text-success lighten-30 text-uppercase my-lg-0" @click="login">
+        Login
+      </button>
+      <router-link :to="{ name: 'Home' }" class="btn text-success">
+        <p class="btn text-white border lighten-30 selectable text-uppercase">Home</p>
+      </router-link>
+    </div>
 
     <div v-else>
-      <div class="dropdown my-2 my-lg-0">
+      <div class="d-flex flex-column align-items-center">
 
-        <div type="button" class="bg-dark border-0 selectable no-select" data-bs-toggle="dropdown" aria-expanded="false">
-          <div v-if="account.picture || user.picture">
-            <img :src="account.picture || user.picture" alt="account photo" height="40" class="rounded" />
-          </div>
+        <div v-if="account.picture || user.picture" type ="button">
+          <img :src="account.picture || user.picture" alt="account photo" height="86" class="rounded border-line mt-2 mb-3" />
         </div>
-        <div class="dropdown-menu dropdown-menu-lg-end dropdown-menu-start p-0" aria-labelledby="authDropdown">
-          <div class="list-group">
-            <router-link class="navbar-brand d-flex" :to="{ name: 'Home' }">
-              <div class="list-group-item dropdown-item list-group-item-action">
-                <button class="btn">Home</button>
-              </div>
-            </router-link>
-            <router-link :to="{ name: 'Account' }">
-              <div class="list-group-item dropdown-item list-group-item-action">
-                <button class="btn">Account</button>
-              </div>
-            </router-link>
-            <button class="btn btn-success">New Event</button>
-            <div class="list-group-item dropdown-item list-group-item-action text-danger selectable" @click="logout">
-              <button class="btn border border-danger">
-                <i class="mdi mdi-logout"></i>
-                logout
-              </button>
-            </div>
-          </div>
-        </div>
+
+        <router-link :to="{ name: 'Home' }">
+          <button class="btn mb-3 px-4 text-white border lighten-30 selectable">Home</button>
+        </router-link>
+
+        <router-link :to="{ name: 'Account' }">
+          <button class="btn mb-3 px-3 text-white border lighten-30 selectable">Account</button>
+        </router-link>
+
+        <button class="btn btn-success mb-3 px-2">New Event</button>
+
+        <button class="btn border border-danger text-danger lighten-30 selectable text-uppercase px-1" @click="logout">
+          logout
+          <i class="mdi mdi-logout"></i>
+        </button>
 
       </div>
     </div>
@@ -61,4 +57,8 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.border-line{
+  border: 1px solid #56c7fb;
+}
+</style>
