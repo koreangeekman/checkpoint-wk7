@@ -21,7 +21,7 @@
   
   <section class="row">
     <div v-for="towerEvent in events" :key="towerEvent.id" class="col-3 p-0">
-      <div class="card m-3 p-0">
+      <div class="card m-3 p-0 greyBG">
         <EventCard :towerEvent="towerEvent" />
       </div>
     </div>
@@ -72,7 +72,7 @@ export default {
 
 .bgBlur{
   background-color: #123456b9;
-  // filter: blur(1px);
+  backdrop-filter: blur(3px);
   width: fit-content;
 }
 

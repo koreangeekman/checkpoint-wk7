@@ -1,24 +1,35 @@
 <template>
-  <div class="">
-    <img :src="towerEvent.coverImg" :alt="towerEvent.name" class="rounded-top">
-    <div class="p-2">
-      <p class="fw-bold fs-5 mb-1">{{ towerEvent.name }}</p>
-      <p class="">{{ towerEvent.location }}</p>
-      <p class="">{{ towerEvent.startDate.toLocaleDateString() }}</p>
+  <div class="position-relative coverImg rounded">
+    <div class="position-absolute fixed-bottom">
+      <div class="p-2 pb-1 bgBlur">
+        <p class="fw-bold fs-5 mb-1">{{ towerEvent.name }}</p>
+        <p class="">{{ towerEvent.location }}</p>
+        <p class="">{{ towerEvent.startDate.toLocaleDateString() }}</p>
+      </div>
+      <div v-if="towerEvent.isCanceled || towerEvent.capacity - towerEvent.ticketCount == 0" class="red p-1 rounded-bottom">
+        <p v-if="towerEvent.isCanceled" class="text-center">EVENT CANCELED</p>
+        <p v-if="towerEvent.capacity - towerEvent.ticketCount == 0" class="text-center">SOLD OUT!</p>
+      </div>
+      <p v-if="!towerEvent.isCanceled && towerEvent.capacity - towerEvent.ticketCount > 0" 
+      class="text-end bgBlur p-1 rounded-bottom"><span class="seatCount">{{ towerEvent.capacity - towerEvent.ticketCount }}</span> seats left!</p>
     </div>
   </div>
 </template>
 
 
 <script>
+import { computed } from "vue";
 import { TowerEvent } from "../models/TowerEvent";
 
 export default {
   props: { towerEvent: { type: TowerEvent, required: true } },
   
-  setup() {
+  setup(props) {
     
-  return {  }
+    return {
+    coverImg: computed(()=> `url(${props.towerEvent.coverImg})`),
+
+    }
   }
 };
 </script>
@@ -29,11 +40,25 @@ export default {
   background-color: #ff5977;
 }
 
-img{
-  width: 100%;
-}
-
 p{
   margin-bottom: 0;
 }
+
+.bgBlur{
+  background-color: #123456b9;
+  color: white;
+  backdrop-filter: blur(3px);
+}
+
+.coverImg{
+  background-image: v-bind(coverImg);
+  background-size: cover;
+  background-position: center;
+  height: 20rem;
+}
+
+.seatCount{
+  color: rgb(0, 255, 255);
+}
+
 </style>
