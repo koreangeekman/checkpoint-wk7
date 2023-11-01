@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <section class="row">
       <main class="col-11 p-3">
-        <PageTopper />
+        <PageTopper :name="appState.account.name" />
         <router-view />
       </main>
       <header class="col p-0 m-0">
@@ -37,10 +37,6 @@ export default {
 header{
   background-color: #123456;
   background-image: linear-gradient(#123456, #2a2d3a);
-}
-
-main{
-  background-color: #2a2d3a;
 }
 
 </style>

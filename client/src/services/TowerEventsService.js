@@ -12,6 +12,15 @@ class TowerEventsService{
     AppState.events = events;
     logger.log('[TOWER EVENTS SERVICE] getEvents(): ', events);
   }
+
+
+  async getCommentsByEventId(eventId) {
+    const res = await api.get(`api/events/${eventId}/comments`);
+    const comments = res.data.map(comment => new Comment(comment));
+    AppState.comments = comments;
+    logger.log('[COMMENTS SERVICE] getCommentsByEventId(): ', comments);
+  }
+
 }
 
 export const towerEventsService = new TowerEventsService();
