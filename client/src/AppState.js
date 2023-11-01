@@ -5,9 +5,11 @@ export const AppState = reactive({
   user: {},
   /** @type {import('./models/Account.js').Account} */
   account: {},
-  /** @type {import('./models/TowerEvent.js').TowerEvent[]} */
-  events: [],
   /** @type {import('./models/Ticket.js').Ticket[]} */
   tickets: [],
+  /** @type {import('./models/TowerEvent.js').TowerEvent[]} */
+  events: [],
+  /** @type {import('./models/TowerEvent.js').TowerEvent} */
+  activeEvent: [],
 
 })
