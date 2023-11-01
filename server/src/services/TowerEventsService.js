@@ -1,20 +1,25 @@
 import { dbContext } from "../db/DbContext.js";
 import { BadRequest, Forbidden } from "../utils/Errors.js";
 import { logger } from "../utils/Logger.js";
+import { ticketsService } from "./TicketsService.js";
 
 function _captureData(newData) {
   const updateable = {
     // DEFINE THE PROPERTIES ALLOWED TO UPDATE BELOW
     name: newData.name,
     description: newData.description,
+    isCanceled: newData.isCanceled,
     coverImg: newData.coverImg,
     location: newData.location,
     capacity: newData.capacity,
     startDate: newData.startDate,
-    isCanceled: newData.isCanceled,
     type: newData.type
   }
   return updateable
+}
+
+async function _cancelEvent(eventObj) {
+
 }
 
 class TowerEventsService {
@@ -27,11 +32,11 @@ class TowerEventsService {
     return towerEvents
   }
 
-  async getTowerEventById(towerEventId) {
-    const towerEvent = await dbContext.TowerEvents.findById(towerEventId)
+  async getTowerEventById(eventId) {
+    const towerEvent = await dbContext.TowerEvents.findById(eventId)
       .populate('creator', 'name picture')
       .populate('ticketCount');
-    if (!towerEvent) { throw new BadRequest(`No towerEvent with ID: ${towerEventId}`) }
+    if (!towerEvent) { throw new BadRequest(`No towerEvent with ID: ${eventId}`) }
     // logger.log('[TOWER-EVENTS SERVICE] getTowerEventById(): ', towerEvent);
     return towerEvent
   }
@@ -40,26 +45,35 @@ class TowerEventsService {
 
   async createTowerEvent(body) {
     const newTowerEvent = await dbContext.TowerEvents.create(body);
-    newTowerEvent.populate('creator', 'name picture');
-    newTowerEvent.populate('ticketCount');
+    await newTowerEvent.populate('creator', 'name picture');
+    await newTowerEvent.populate('ticketCount');
     // logger.log('[TOWER-EVENTS SERVICE] createTowerEvent(): ', newTowerEvent);
     return newTowerEvent
   }
 
-  async removeTowerEvent(towerEventId, userId) {
-    const toBeDeleted = await dbContext.TowerEvents.findById(towerEventId);
+  async removeTowerEvent(eventId, userId) {
+    const tickets = await ticketsService.getTicketsByTowerEventId(eventId);
+    const toBeDeleted = await dbContext.TowerEvents.findById(eventId);
     if (toBeDeleted.creatorId != userId) { throw new Forbidden('UNAUTHORIZED REQUEST: Not your towerEvent to remove') }
-    const results = await dbContext.TowerEvents.remove(toBeDeleted);
-    logger.log('[TOWER-EVENTS SERVICE] removeTowerEvent(): ', results);
-    return results
+    // if (tickets) {
+    toBeDeleted.isCanceled = true;
+    await dbContext.TowerEvents.findOneAndUpdate(
+      { _id: eventId },
+      { $set: toBeDeleted }
+    );
+    // return "Event has been canceled."
+    // }
+    // const results = await dbContext.TowerEvents.remove(toBeDeleted);
+    // logger.log('[TOWER-EVENTS SERVICE] removeTowerEvent(): ', results);
+    return toBeDeleted
   }
 
-  async updateTowerEvent(towerEventId, newData, userId) {
-    const toBeUpdated = await dbContext.TowerEvents.findById(towerEventId);
+  async updateTowerEvent(eventId, newData, userId) {
+    const toBeUpdated = await dbContext.TowerEvents.findById(eventId);
     if (toBeUpdated.creatorId != userId) { throw new Forbidden('UNAUTHORIZED REQUEST: Not your towerEvent to update') }
     const update = _captureData(newData);
     const updated = await dbContext.TowerEvents.findOneAndUpdate(
-      { _id: towerEventId },
+      { _id: eventId },
       { $set: update },
       { runValidators: true, setDefaultsOnInsert: true, new: true }
     );
