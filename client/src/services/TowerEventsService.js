@@ -15,6 +15,7 @@ class TowerEventsService{
     const events = res.data.map(towerEvent => new TowerEvent(towerEvent));
     AppState.events = events;
     logger.log('[TOWER EVENTS SERVICE] getEvents(): ', events);
+    AppState.activeEvent = AppState.events[0]
   }
 
   async getCommentsByEventId(eventId) {

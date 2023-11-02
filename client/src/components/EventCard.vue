@@ -3,8 +3,8 @@
     <div class="position-absolute fixed-bottom">
       <div class="p-2 pb-1 bgBlur">
         <p class="fw-bold fs-5 mb-1">{{ towerEvent.name }}</p>
-        <p class="">{{ towerEvent.location }}</p>
-        <p class="">{{ towerEvent.startDate.toLocaleDateString() }}</p>
+        <p class="eventText">{{ towerEvent.location }}</p>
+        <p class="eventText">{{ towerEvent.startDate.toLocaleDateString() }}</p>
       </div>
       <div v-if="towerEvent.isCanceled || towerEvent.capacity - towerEvent.ticketCount == 0" class="red p-1 rounded-bottom">
         <p v-if="towerEvent.isCanceled" class="text-center">EVENT CANCELED</p>
@@ -61,4 +61,11 @@ p{
   color: rgb(0, 255, 255);
 }
 
+.spotsLeft{
+  color: #56c7fb;
+}
+
+.eventText{
+  color: #ccf3fd;
+}
 </style>

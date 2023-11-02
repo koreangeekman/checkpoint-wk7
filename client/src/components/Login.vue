@@ -25,7 +25,7 @@
           <button class="btn mb-3 px-3 text-white border lighten-30 selectable">Account</button>
         </router-link>
 
-        <button class="btn btn-success mb-3 px-2">New Event</button>
+        <button class="btn btn-success mb-3 px-2 newEvent text-dark">New Event</button>
 
         <button class="btn border border-danger text-danger lighten-30 selectable text-uppercase px-1" @click="logout">
           logout
@@ -60,5 +60,8 @@ export default {
 <style lang="scss" scoped>
 .border-line{
   border: 1px solid #56c7fb;
+}
+.newEvent{
+  background-color:#79e7ab;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <section class="row"><div class="col-12"><p class="fs-3">My Events</p></div></section>
+  <section class="row"><div class="col-12"><p class="fs-3 sectionText">My Events</p></div></section>
 
     <section v-if="events" class="row">
       <div v-for="towerEvent in events" :key="towerEvent.id" class="col-3">
@@ -8,9 +8,9 @@
         </div>
       </div>
     </section>
-    <section v-else class="row"><div class="col-12 text-center">Loading... <i class="mdi mdi-tire mdi-spin"></i></div></section>
+    <section v-else class="row"><div class="col-12 text-center sectionText">Loading... <i class="mdi mdi-tire mdi-spin"></i></div></section>
     
-    <section class="row"><div class="col-12"><p class="fs-3">Upcoming Events</p></div></section>
+    <section class="row"><div class="col-12"><p class="fs-3 sectionText">Upcoming Events</p></div></section>
     <section v-if="tickets" class="row justify-content-center">
       <div v-for="ticket in tickets" :key="ticket.id" class="col-12 col-md-11  col-lg-10 col-xxl-9">
         <div class="card m-1 my-2 m-md-3 mx-md-5 greyBG">
@@ -18,7 +18,7 @@
         </div>
       </div>
     </section>
-    <section v-else class="row"><div class="col-12 text-center">Loading... <i class="mdi mdi-tire mdi-spin"></i></div></section>
+    <section v-else class="row"><div class="col-12 text-center sectionText">Loading... <i class="mdi mdi-tire mdi-spin"></i></div></section>
 </template>
 
 <script>
@@ -79,4 +79,10 @@ p{
 .greyBG{
   background-color: #474c61;
 }
+
+.sectionText{
+  color:#79e7ab;
+}
+
+
 </style>

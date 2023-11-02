@@ -3,8 +3,8 @@
     <img :src="ticket.event.coverImg" :alt="ticket.event.name" class="eventImg rounded-start">
     <div class="p-1 p-md-3">
       <p class="fw-bold fs-4">{{ ticket.event.name }}</p>
-      <p class="mb-0 fs-5">{{ ticket.event.location }}</p>
-      <p class="mb-0 fs-5">{{ new Date(ticket.event.startDate).toLocaleDateString() }}</p>
+      <p class="mb-0 fs-5 eventText">{{ ticket.event.location }}</p>
+      <p class="mb-0 fs-5 eventText">{{ new Date(ticket.event.startDate).toLocaleDateString() }}</p>
     </div>
   </div>
 </template>
@@ -37,6 +37,10 @@ export default {
 
 p{
   color: white;
+}
+
+.eventText{
+  color: #ccf3fd;
 }
 
 @media (max-width:768px){
