@@ -25,7 +25,10 @@
         </section>
       </div>
     </section>
-    <i class="position-absolute rounded-pill bg-primary px-2 fs-2 text-white mdi mdi-dots-horizontal" type="button" @click="edit()"></i>
+    <div v-if="activeEvent.creatorId == account.id" class="position-absolute">
+      <i class="rounded-pill bg-primary px-2 fs-2 text-white mdi mdi-dots-horizontal" type="button" @click="edit()"></i>
+      <i class="text-danger ps-2 fs-2 mdi mdi-trash-can" type="button" @click="cancelEvent()"></i>
+    </div>
   </div>
 </template>
 
@@ -37,14 +40,18 @@ import Pop from "../utils/Pop";
 import { TowerEvent } from "../models/TowerEvent";
 import { ticketsService } from "../services/TicketsService.js";
 import { AppState } from "../AppState";
+import { towerEventsService } from "../services/TowerEventsService";
+import { useRouter } from "vue-router";
 
 export default {
   props: { activeEvent: { type: TowerEvent } },
   
   setup(props) {
-    
+    const router = useRouter();
+
     return { 
       coverImg: computed(() => `url(${props.activeEvent.coverImg})`),
+      account: computed(() => AppState.account),
 
       async getTicket() {
         try {
@@ -56,12 +63,27 @@ export default {
             Pop.error('Sorry, this event is sold out!')
             return
           }
-          ticketsService.createTicket()
+          await ticketsService.createTicket()
+        } catch (error) {
+          logger.error(error);
+          Pop.error(error);
+        }
+      },
+
+      async cancelEvent() {
+        try {
+          const yes = await Pop.confirm('Cancel this event?')
+          if(!yes){return}
+          await towerEventsService.cancelEvent();
+          // router.push({name:'Home'})
+
         } catch (error) {
           logger.error(error);
           Pop.error(error);
         }
       }
+
+
     }
   }
 };
@@ -87,7 +109,7 @@ i{
   width: 100%;
 }
 
-.mdi-dots-horizontal{
+.position-absolute{
   top:1rem;
   right: 1rem;
   opacity: .75;

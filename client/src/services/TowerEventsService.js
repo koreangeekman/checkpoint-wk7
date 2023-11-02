@@ -32,6 +32,11 @@ class TowerEventsService{
     AppState.comments = comments;
     // logger.log('[TOWER EVENTS SERVICE] getCommentsByEventId(): ', comments);
   }
+  
+  async cancelEvent() {
+    const res = await api.delete(`api/events/${AppState.activeEvent.id}`)
+    logger.log('[TOWER EVENTS SERVICE] cancelEvent(): ', res.data);
+  }
 
 }
 
