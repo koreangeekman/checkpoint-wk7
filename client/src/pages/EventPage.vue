@@ -6,10 +6,10 @@
 
   <section v-if="true" class="row p-3 justify-content-center">
     <!-- <ActiveEventCard :activeEvent="activeEvent" /> -->
-    <div class="col-12"><p class="textColoring fs-5 fw-bold">See who is attending</p></div>
+    <!-- <div class="col-12"><p class="textColoring fs-5 fw-bold">See who is attending</p></div>
     <div class="col-12 lightGreyBG rounded">
       <img v-for="person in peoples" :key="person.id" :src="person.picture" :alt="person.name" class="rounded-circle m-1">
-    </div>
+    </div> -->
   </section>
 
   <section v-if="true" class="row p-3 justify-content-center">
@@ -32,6 +32,7 @@
         <div v-if="comments.length > 0">
           <div v-for="comment in comments" :key="comment.id" class="col-12 py-2">
             <CommentCard :comment="comment" />
+            
           </div>
         </div>
         <div v-else>
@@ -97,6 +98,7 @@ export default {
               eventId: route.params.eventId
             }
             await commentsService.createComment(commentBody)
+            commentForm.value = ''
           }
           catch (error) {
             logger.error(error);
@@ -113,9 +115,7 @@ export default {
 hr{
   color: grey;
 }
-i{
-  line-height: 2rem;
-}
+
 .mdi-dots-horizontal{
   top:1rem;
   right: 1rem;
