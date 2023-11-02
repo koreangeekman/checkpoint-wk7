@@ -17,18 +17,20 @@
     <div class="col-12 col-md-8 lightGreyBG">
 
       <section class="row">
-        <div class="col-12 p-3 d-flex flex-column align-items-end">
-          <p class="commentLabel">Join the conversation</p>
-          <!-- add comment -->
-          <textarea name="comment" id="comment" cols="30" rows="3" placeholder="Tell the people..." class="form-control"></textarea>
-          <button class="btn commentBtn shadow mt-3 fw-bold">post comment</button>
+        <div class="col-12 p-3">
+          <form @submit.prevent="addComment()" class="d-flex flex-column align-items-end">
+            <p class="commentLabel">Join the conversation</p>
+            <!-- add comment -->
+            <textarea v-model="commentForm" id="comment" cols="30" rows="3" class="form-control" maxlength="1000" placeholder="Tell the people..."></textarea>
+            <button class="btn commentBtn shadow mt-3 fw-bold" type="submit">post comment</button>
+          </form>
         </div>
         <hr>
       </section>
 
       <section class="row">
         <div v-if="comments.length > 0">
-          <div v-for="comment in comments" :key="comment.id" class="col-12 p-2">
+          <div v-for="comment in comments" :key="comment.id" class="col-12 py-2">
             <CommentCard :comment="comment" />
           </div>
         </div>
@@ -44,7 +46,7 @@
 
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { AppState } from "../AppState";
 import { towerEventsService } from "../services/TowerEventsService.js";
 import { logger } from "../utils/Logger";
@@ -56,6 +58,7 @@ import CommentCard from "../components/CommentCard.vue";
 export default {
     setup() {
     const route = useRoute();
+    const commentForm = ref('')
         
     async function _getEventById() {
         try {
@@ -74,20 +77,32 @@ export default {
         logger.error(error);
       }
     }
-
-
     
-        onMounted(() => {
-          towerEventsService.clearData();
-          _getEventById();
-          _getCommentsByEventId();
-        });
+      onMounted(() => {
+        towerEventsService.clearData();
+        _getEventById();
+        _getCommentsByEventId();
+      });
 
-        return {
-          activeEvent: computed(() => AppState.activeEvent),
-          coverImg: computed(() => `url(${AppState.activeEvent.coverImg})`),
-          comments: computed(()=> AppState.comments)
-        };
+      return {
+        activeEvent: computed(() => AppState.activeEvent),
+        coverImg: computed(() => `url(${AppState.activeEvent.coverImg})`),
+        comments: computed(() => AppState.comments),
+        commentForm,
+
+        async addComment() {
+          try {
+            const commentBody = {
+              body: commentForm.value,
+              eventId: route.params.eventId
+            }
+            await commentsService.createComment(commentBody)
+          }
+          catch (error) {
+            logger.error(error);
+          }
+        }
+      };
     },
     components: { ActiveEventCard, CommentCard }
 };
