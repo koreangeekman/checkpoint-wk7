@@ -1,5 +1,6 @@
 <template>
   <div class="col-12 coverImg rounded position-relative">
+
     <section class="row bgBlur rounded shadow px-3 py-4 align-items-center">
       <div class="col-12 col-md-4">
         <img :src="activeEvent.coverImg" :alt="activeEvent.name" class="rounded shadow eventImg">
@@ -13,7 +14,6 @@
             </span>
             <span class="d-block">
               <p class="mb-0 fs-5">{{ activeEvent.startDate.getDate() }}th of Month</p>
-              <!-- <p class="mb-0">{{ activeEvent.startDate.getHours() }}</p> -->
             </span>
           </span>
           <p class="mt-3 mb-4">{{ activeEvent.description }}</p>
@@ -24,7 +24,7 @@
         </section>
       </div>
     </section>
-    <i class="position-absolute rounded-pill bg-primary px-2 fs-2 text-white mdi mdi-dots-horizontal" @click="edit()"></i>
+    <i class="position-absolute rounded-pill bg-primary px-2 fs-2 text-white mdi mdi-dots-horizontal" type="button" @click="edit()"></i>
   </div>
 </template>
 

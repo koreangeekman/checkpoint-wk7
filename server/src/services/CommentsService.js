@@ -42,7 +42,7 @@ class CommentsService {
     const comments = await dbContext.Comments.find({ eventId })
       .populate('creator', 'name picture');
     if (!comments) { throw new BadRequest(`No comment with ID: ${eventId}`) }
-    logger.log('[COMMENTS SERVICE] getCommentById(): ', comments);
+    logger.log('[COMMENTS SERVICE] getCommentsByTowerEventId(): ', comments);
     return comments
   }
 

@@ -13,6 +13,13 @@ class CommentsService {
     logger.log('[COMMENTS SERVICE] getComments(): ', comments);
   }
 
+  async getCommentsByEventId(eventId) {
+    const res = await api.get(`api/events/${eventId}/comments`);
+    const comments = res.data.map(comment => new Comment(comment));
+    AppState.comments = comments;
+    logger.log('[COMMENTS SERVICE] getCommentsByEventId(): ', comments);
+  }
+
 
 
 }
