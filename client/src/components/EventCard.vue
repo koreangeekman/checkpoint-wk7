@@ -1,19 +1,23 @@
 <template>
-  <div class="position-relative coverImg rounded">
-    <div class="position-absolute fixed-bottom">
-      <div class="p-2 pb-1 bgBlur">
-        <p class="fw-bold fs-5 mb-1">{{ towerEvent.name }}</p>
-        <p class="eventText">{{ towerEvent.location }}</p>
-        <p class="eventText">{{ towerEvent.startDate.toLocaleDateString() }}</p>
+  <router-link :to="{name:'Event',params:{eventId: towerEvent.id}}">
+    <div class="position-relative coverImg rounded">
+      <div class="position-absolute fixed-bottom">
+        <div class="p-2 pb-1 bgBlur">
+          <p class="fw-bold fs-5 mb-1">{{ towerEvent.name }}</p>
+          <p class="eventText">{{ towerEvent.location }}</p>
+          <p class="eventText">{{ towerEvent.startDate.toLocaleDateString() }}</p>
+        </div>
+        <div v-if="towerEvent.isCanceled || towerEvent.capacity - towerEvent.ticketCount == 0" class="red p-1 rounded-bottom">
+          <p v-if="towerEvent.isCanceled" class="text-center">EVENT CANCELED</p>
+          <p v-if="towerEvent.capacity - towerEvent.ticketCount == 0" class="text-center">SOLD OUT!</p>
+        </div>
+        <p v-if="!towerEvent.isCanceled && towerEvent.capacity - towerEvent.ticketCount > 0" 
+          class="text-end bgBlur p-1 rounded-bottom">
+          <span class="seatCount">{{ towerEvent.capacity - towerEvent.ticketCount }}</span> seats left!
+        </p>
       </div>
-      <div v-if="towerEvent.isCanceled || towerEvent.capacity - towerEvent.ticketCount == 0" class="red p-1 rounded-bottom">
-        <p v-if="towerEvent.isCanceled" class="text-center">EVENT CANCELED</p>
-        <p v-if="towerEvent.capacity - towerEvent.ticketCount == 0" class="text-center">SOLD OUT!</p>
-      </div>
-      <p v-if="!towerEvent.isCanceled && towerEvent.capacity - towerEvent.ticketCount > 0" 
-      class="text-end bgBlur p-1 rounded-bottom"><span class="seatCount">{{ towerEvent.capacity - towerEvent.ticketCount }}</span> seats left!</p>
     </div>
-  </div>
+  </router-link>
 </template>
 
 
