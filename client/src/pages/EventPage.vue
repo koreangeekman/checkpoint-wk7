@@ -6,10 +6,13 @@
 
   <section v-if="true" class="row p-3 justify-content-center">
     <!-- <ActiveEventCard :activeEvent="activeEvent" /> -->
-    <!-- <div class="col-12"><p class="textColoring fs-5 fw-bold">See who is attending</p></div>
-    <div class="col-12 lightGreyBG rounded">
-      <img v-for="person in peoples" :key="person.id" :src="person.picture" :alt="person.name" class="rounded-circle m-1">
-    </div> -->
+    <div class="col-12"><p class="textColoring fs-5 fw-bold">See who is attending</p></div>
+    <div v-if="tickets.length > 0" class="col-12 lightGreyBG rounded">
+      <img v-for="ticket in tickets" :key="ticket.id" :src="ticket.profile.picture" :alt="ticket.profile.name" :title="ticket.profile.name" class="rounded-circle attendees m-1">
+    </div>
+    <div v-else class="col-12 lightGreyBG rounded">
+      <p class="my-3 text-white">Nobody yet..</p>
+    </div>
   </section>
 
   <section v-if="true" class="row p-3 justify-content-center">
@@ -69,6 +72,17 @@ export default {
             logger.error(error);
         }
     }
+    
+        
+    async function _getTicketsByEventId() {
+        try {
+            await towerEventsService.getTicketsByEventId(route.params.eventId);
+        }
+        catch (error) {
+            logger.error(error);
+        }
+    }
+
 
     async function _getCommentsByEventId(){
       try {
@@ -82,12 +96,14 @@ export default {
       onMounted(() => {
         towerEventsService.clearData();
         _getEventById();
+        _getTicketsByEventId();
         _getCommentsByEventId();
       });
 
       return {
         activeEvent: computed(() => AppState.activeEvent),
         coverImg: computed(() => `url(${AppState.activeEvent.coverImg})`),
+        tickets: computed(() => AppState.tickets),
         comments: computed(() => AppState.comments),
         commentForm,
 
@@ -125,7 +141,9 @@ hr{
 .mdi-dots-horizontal:hover{
   opacity: 1;
 }
-
+.attendees{
+  height: 3rem;
+}
 .coverImg{
   background-image: v-bind(coverImg) ;
   background-position: center;

@@ -3,6 +3,7 @@ import { TowerEvent } from "../models/TowerEvent.js";
 import { Comment } from "../models/Comment.js";
 import { logger } from "../utils/Logger";
 import { api } from "./AxiosService";
+import { Ticket } from "../models/Ticket";
 
 
 class TowerEventsService{
@@ -24,6 +25,13 @@ class TowerEventsService{
     const towerEvent = new TowerEvent(res.data);
     AppState.activeEvent = towerEvent;
     // logger.log('[TOWER EVENTS SERVICE] getEventById(): ', towerEvent);
+  }
+
+  async getTicketsByEventId(eventId) {
+    const res = await api.get(`api/events/${eventId}/tickets`);
+    const tickets = res.data.map(ticket => new Ticket(ticket));
+    AppState.tickets = tickets;
+    // logger.log('[TOWER EVENTS SERVICE] getTicketsByEventId(): ', tickets);
   }
 
   async getCommentsByEventId(eventId) {

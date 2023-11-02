@@ -19,6 +19,10 @@
           <p class="mt-3 mb-4">{{ activeEvent.description }}</p>
           <span class="d-flex justify-content-between align-items-center">
             <p class="fs-4 eventTextColoring"><span class="spotsLeft">{{ activeEvent.capacity - activeEvent.ticketCount }}</span> spots left</p>  
+            <span class="d-flex align-items-center text-warning border rounded py-1 px-2" v-if="tickets.find(ticket=>ticket.profileId == account.id)">
+              <p class="mb-0 text-center">Congratulations on <br> getting a ticket!</p>
+              <i class="fs-1 mdi mdi-exclamation-thick mdi-spin"></i>
+            </span>
             <button class="btn d-flex align-items-center ticket px-2 shadow" @click="getTicket()">
               Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
           </span>
@@ -52,6 +56,7 @@ export default {
     return { 
       coverImg: computed(() => `url(${props.activeEvent.coverImg})`),
       account: computed(() => AppState.account),
+      tickets: computed(() => AppState.tickets),
 
       async getTicket() {
         try {
@@ -64,6 +69,7 @@ export default {
             return
           }
           await ticketsService.createTicket()
+          Pop.success('Congratulations! You got a ticket!')
         } catch (error) {
           logger.error(error);
           Pop.error(error);
