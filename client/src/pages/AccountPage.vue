@@ -1,5 +1,5 @@
 <template>
-  <section class="row"><div class="col-12"><p class="fs-3 sectionText">My Events</p></div></section>
+  <section class="row"><div class="col-12"><p class="fs-3 sectionText">My Events ({{ events.length }})</p></div></section>
 
     <section v-if="events" class="row">
       <div v-for="towerEvent in events" :key="towerEvent.id" class="col-3">
@@ -10,7 +10,7 @@
     </section>
     <section v-else class="row"><div class="col-12 text-center sectionText">Loading... <i class="mdi mdi-tire mdi-spin"></i></div></section>
     
-    <section class="row"><div class="col-12"><p class="fs-3 sectionText">Upcoming Events</p></div></section>
+    <section class="row"><div class="col-12"><p class="fs-3 sectionText">Upcoming Events ({{ tickets.length }})</p></div></section>
     <section v-if="tickets" class="row justify-content-center">
       <div v-for="ticket in tickets" :key="ticket.id" class="col-12 col-md-11  col-lg-10 col-xxl-9">
         <div class="card m-1 my-2 m-md-3 mx-md-5 greyBG">

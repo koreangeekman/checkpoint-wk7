@@ -19,7 +19,8 @@
           <p class="mt-3 mb-4">{{ activeEvent.description }}</p>
           <span class="d-flex justify-content-between align-items-center">
             <p class="fs-4 eventTextColoring"><span class="spotsLeft">{{ activeEvent.capacity - activeEvent.ticketCount }}</span> spots left</p>  
-            <button class="btn d-flex align-items-center ticket px-2 shadow">Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
+            <button class="btn d-flex align-items-center ticket px-2 shadow" @click="getTicket()">
+              Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
           </span>
         </section>
       </div>
@@ -31,7 +32,11 @@
 
 <script>
 import { computed } from 'vue';
+import { logger } from "../utils/Logger";
+import Pop from "../utils/Pop";
 import { TowerEvent } from "../models/TowerEvent";
+import { ticketsService } from "../services/TicketsService.js";
+import { AppState } from "../AppState";
 
 export default {
   props: { activeEvent: { type: TowerEvent } },
@@ -41,6 +46,22 @@ export default {
     return { 
       coverImg: computed(() => `url(${props.activeEvent.coverImg})`),
 
+      async getTicket() {
+        try {
+          if (AppState.activeEvent.isCanceled) {
+            Pop.error('Event was cancelled, cannot get a ticket')
+            return
+          }
+          if (AppState.activeEvent.capacity - AppState.activeEvent.ticketCount <= 0) {
+            Pop.error('Sorry, this event is sold out!')
+            return
+          }
+          ticketsService.createTicket()
+        } catch (error) {
+          logger.error(error);
+          Pop.error(error);
+        }
+      }
     }
   }
 };
