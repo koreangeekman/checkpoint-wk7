@@ -17,23 +17,19 @@
     <div class="col-12 col-md-8 lightGreyBG">
 
       <section class="row">
-        <div class="col-12 p-3">
-          <p class="mb-2 commentLabel">Join the conversation</p>
+        <div class="col-12 p-3 d-flex flex-column align-items-end">
+          <p class="commentLabel">Join the conversation</p>
           <!-- add comment -->
           <textarea name="comment" id="comment" cols="30" rows="3" placeholder="Tell the people..." class="form-control"></textarea>
-          <button class="btn commentBtn shadow fs-5 my-2">post comment</button>
+          <button class="btn commentBtn shadow mt-3 fw-bold">post comment</button>
         </div>
         <hr>
       </section>
 
       <section class="row">
-        <div v-if="comments.id">
-          <div v-for="comment in comments" :key="comment.id" class="col-12">
-            <img :src="comment.creator.picture" :alt="comment.creator.name">
-            <span class="card">
-              <p class="fw-bold">{{ comment.creator.name }}</p>
-              <p class="">{{ comment.body }}</p>
-            </span>
+        <div v-if="comments.length > 0">
+          <div v-for="comment in comments" :key="comment.id" class="col-12 p-2">
+            <CommentCard :comment="comment" />
           </div>
         </div>
         <div v-else>
@@ -55,6 +51,7 @@ import { logger } from "../utils/Logger";
 import { useRoute } from "vue-router";
 import ActiveEventCard from "../components/ActiveEventCard.vue";
 import { commentsService } from "../services/CommentsService";
+import CommentCard from "../components/CommentCard.vue";
 
 export default {
     setup() {
@@ -92,7 +89,7 @@ export default {
           comments: computed(()=> AppState.comments)
         };
     },
-    components: { ActiveEventCard }
+    components: { ActiveEventCard, CommentCard }
 };
 </script>
 
