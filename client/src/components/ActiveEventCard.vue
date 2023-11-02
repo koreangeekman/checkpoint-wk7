@@ -34,7 +34,7 @@ import { computed } from 'vue';
 import { TowerEvent } from "../models/TowerEvent";
 
 export default {
-  props: { activeEvent: { type: TowerEvent, required: true } },
+  props: { activeEvent: { type: TowerEvent } },
   
   setup(props) {
     

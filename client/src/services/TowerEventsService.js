@@ -16,6 +16,7 @@ class TowerEventsService{
     const res = await api.get('api/events');
     const events = res.data.map(towerEvent => new TowerEvent(towerEvent));
     AppState.events = events;
+    // AppState.activeEvent = AppState.events[0];
     // logger.log('[TOWER EVENTS SERVICE] getEvents(): ', events);
   }
 

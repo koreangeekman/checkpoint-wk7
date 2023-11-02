@@ -1,7 +1,7 @@
 <template>
   <section class="row p-3 justify-content-center">
     <div class="col-12 coverImg rounded position-relative">
-      <section class="row bgBlur rounded shadow px-3 py-4">
+      <section class="row bgBlur rounded shadow px-3 py-4 align-items-center">
         <div class="col-12 col-md-4">
           <img :src="activeEvent.coverImg" :alt="activeEvent.name" class="rounded shadow eventImg">
         </div>
@@ -25,7 +25,7 @@
           </section>
         </div>
       </section>
-      <i class="position-absolute rounded-pill bg-primary px-2 fs-2 text-white mdi mdi-dots-horizontal" @click="edit()"></i>
+      <i class="position-absolute rounded-pill bg-primary px-2 fs-2 text-white mdi mdi-dots-horizontal" type="button" @click="edit()"></i>
     </div>
   </section>
 </template>
@@ -36,19 +36,26 @@ import { computed, onMounted } from "vue";
 import { AppState } from "../AppState";
 import { towerEventsService } from "../services/TowerEventsService.js";
 import { logger } from "../utils/Logger";
+import { useRoute } from "vue-router";
 
 export default {
   setup() {
-    async function _getEvents() {
+
+    const route = useRoute();
+
+    async function _getEventById() {
       try {
-        await towerEventsService.getEvents();
+        await towerEventsService.getEventById(route.params.eventId);
       } catch (error) {
         logger.error(error);
       }
     }
+
     onMounted(() => {
-      _getEvents()
+      towerEventsService.clearData();
+      _getEventById()
     })
+
     return {
       activeEvent: computed(() => AppState.activeEvent),
       coverImg: computed(()=> `url(${AppState.activeEvent.coverImg})`),
@@ -65,12 +72,19 @@ i{
 .mdi-dots-horizontal{
   top:1rem;
   right: 1rem;
+  opacity: .75;
+  transition: ease-in-out .25s;
 }
+.mdi-dots-horizontal:hover{
+  opacity: 1;
+}
+
 .coverImg{
   background-image: v-bind(coverImg) ;
   background-position: center;
   background-size: cover;
   border: 2px solid skyblue;
+  min-height: 16rem;
 }
 
 .eventImg{
