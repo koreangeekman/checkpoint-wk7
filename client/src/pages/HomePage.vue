@@ -21,7 +21,7 @@
 
   <section v-if="events.length > 0" class="row">
     <div v-for="towerEvent in events" :key="towerEvent.id" class="col-6 col-md-3 p-0">
-      <div class="card m-3 p-0 greyBG">
+      <div class="card m-2 m-md-3 p-0 greyBG">
         <EventCard :towerEvent="towerEvent" />
       </div>
     </div>

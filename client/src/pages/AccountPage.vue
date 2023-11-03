@@ -5,9 +5,9 @@
     </div>
   </section>
 
-  <section v-if="events" class="row px-4">
-    <div v-for="towerEvent in events" :key="towerEvent.id" class="col-12 col-md-3">
-      <div class="card m-3 p-0 greyBG">
+  <section v-if="events" class="row px-3 px-md-4">
+    <div v-for="towerEvent in events" :key="towerEvent.id" class="col-12 col-md-4">
+      <div class="card m-2 m-md-3 p-0 greyBG">
         <EventCard :towerEvent="towerEvent" />
       </div>
     </div>
