@@ -10,6 +10,8 @@
       </header>
     </section>
   </div>
+  <!-- SECTION MODALS -->
+  <NewEventModal />
 </template>
 
 
@@ -18,6 +20,7 @@ import { computed } from 'vue'
 import { AppState } from './AppState'
 import Navbar from './components/Navbar.vue'
 import PageTopper from "./components/PageTopper.vue"
+import NewEventModal from "./components/NewEventModal.vue"
 
 export default {
   setup() {
@@ -26,7 +29,7 @@ export default {
       appState: computed(() => AppState)
     }
   },
-  components: { Navbar, PageTopper }
+  components: { Navbar, PageTopper, NewEventModal }
 }
 </script>
 
@@ -34,9 +37,8 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
-header{
+header {
   background-color: #123456;
   background-image: linear-gradient(#123456, #2a2d3a);
 }
-
 </style>

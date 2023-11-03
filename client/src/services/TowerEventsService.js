@@ -6,7 +6,7 @@ import { api } from "./AxiosService";
 import { Ticket } from "../models/Ticket";
 
 
-class TowerEventsService{
+class TowerEventsService {
 
   clearData() {
     AppState.events = [];
@@ -40,7 +40,16 @@ class TowerEventsService{
     AppState.comments = comments;
     // logger.log('[TOWER EVENTS SERVICE] getCommentsByEventId(): ', comments);
   }
-  
+
+  async createEvent(body) {
+    body.creatorId = AppState.account.id;
+    const res = await api.post('api/events', body);
+    logger.log('[TOWER EVENTS SERVICE] createEvent(): ', res.data);
+    const newEvent = new TowerEvent(res.data);
+    AppState.activeEvent = newEvent;
+    return newEvent
+  }
+
   async cancelEvent() {
     const res = await api.delete(`api/events/${AppState.activeEvent.id}`)
     logger.log('[TOWER EVENTS SERVICE] cancelEvent(): ', res.data);

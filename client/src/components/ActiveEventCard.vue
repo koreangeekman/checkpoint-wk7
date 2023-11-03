@@ -1,11 +1,11 @@
 <template>
   <div class="col-12 coverImg rounded position-relative">
 
-    <section class="row bgBlur rounded shadow px-3 py-4 align-items-center">
+    <section class="row bgBlur rounded shadow px-3 py-4">
       <div class="col-12 col-md-4">
         <img :src="activeEvent.coverImg" :alt="activeEvent.name" class="rounded shadow eventImg">
       </div>
-      <div class="col-12 col-md-8 ps-2 pt-2">
+      <div class="col-12 col-md-8 ps-2 pt-2 position-relative">
         <section class="text-white">
           <span class="d-flex justify-content-between align-items-end">
             <span class="d-block">
@@ -13,19 +13,23 @@
               <p class="mb-0 fs-5">{{ activeEvent.location }}</p>
             </span>
             <span class="d-block">
-              <p class="mb-0 fs-5">{{ activeEvent.startDate.getDate() }}th of Month</p>
+              <p class="mb-0 fs-5">{{ activeEvent.startDate.toLocaleDateString('fr-CA') }}</p>
             </span>
           </span>
-          <p class="mt-3 mb-4">{{ activeEvent.description }}</p>
-          <span class="d-flex justify-content-between align-items-center">
-            <p class="fs-4 eventTextColoring"><span class="spotsLeft">{{ activeEvent.capacity - activeEvent.ticketCount }}</span> spots left</p>  
-            <span class="d-flex align-items-center text-warning border rounded py-1 px-2" v-if="tickets.find(ticket=>ticket.profileId == account.id)">
-              <p class="mb-0 text-center">Congratulations on <br> getting a ticket!</p>
-              <i class="fs-1 mdi mdi-exclamation-thick mdi-spin"></i>
+          <p class="mt-3 mb-auto">{{ activeEvent.description }}</p>
+          <div class="">
+            <span class="d-flex justify-content-between align-items-center">
+              <p class="fs-4 eventTextColoring"><span class="spotsLeft">
+                  {{ activeEvent.capacity - activeEvent.ticketCount }}</span> spots left</p>
+              <span class="d-flex align-items-center text-warning border rounded py-1 px-2"
+                v-if="tickets.find(ticket => ticket.profileId == account.id)">
+                <p class="mb-0 text-center">Congratulations on <br> getting a ticket!</p>
+                <i class="fs-1 mdi mdi-exclamation-thick mdi-spin"></i>
+              </span>
+              <button class="btn d-flex align-items-center ticket px-2 shadow" @click="getTicket()">
+                Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
             </span>
-            <button class="btn d-flex align-items-center ticket px-2 shadow" @click="getTicket()">
-              Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
-          </span>
+          </div>
         </section>
       </div>
     </section>
@@ -49,11 +53,11 @@ import { useRouter } from "vue-router";
 
 export default {
   props: { activeEvent: { type: TowerEvent } },
-  
+
   setup(props) {
     const router = useRouter();
 
-    return { 
+    return {
       coverImg: computed(() => `url(${props.activeEvent.coverImg})`),
       account: computed(() => AppState.account),
       tickets: computed(() => AppState.tickets),
@@ -79,7 +83,7 @@ export default {
       async cancelEvent() {
         try {
           const yes = await Pop.confirm('Cancel this event?')
-          if(!yes){return}
+          if (!yes) { return }
           await towerEventsService.cancelEvent();
           // router.push({name:'Home'})
 
@@ -97,58 +101,59 @@ export default {
 
 
 <style lang="scss" scoped>
-
-i{
+i {
   line-height: 2rem;
 }
 
-.coverImg{
-  background-image: v-bind(coverImg) ;
+.coverImg {
+  background-image: v-bind(coverImg);
   background-position: center;
   background-size: cover;
   border: 2px solid skyblue;
 }
 
-.eventImg{
+.eventImg {
   border: 1px solid whitesmoke;
   height: 100%;
   width: 100%;
 }
 
-.position-absolute{
-  top:1rem;
+.position-absolute {
+  top: 1rem;
   right: 1rem;
   opacity: .75;
 }
-.bgBlur{
+
+.bgBlur {
   background-color: #12345678;
   backdrop-filter: blur(10px);
 }
 
-.ticket{
+.ticket {
   background-color: #ffd464;
 }
 
-.spotsLeft{
+.spotsLeft {
   color: #56c7fb;
 }
-.commentBtn{
+
+.commentBtn {
   background-color: #79e7ab;
 }
 
-.commentLabel{
-  color:#79e7ab;
+.commentLabel {
+  color: #79e7ab;
 }
 
-.commentBody{
+.commentBody {
   background-color: #e2f9ff;
 }
 
-.eventTextColoring{
+.eventTextColoring {
   color: #ccf3fd;
 }
 
-.textColoring{
+.textColoring {
   color: #7981a6;
 }
 </style>

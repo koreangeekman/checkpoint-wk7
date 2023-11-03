@@ -13,8 +13,9 @@
     <div v-else>
       <div class="d-flex flex-column align-items-center">
 
-        <div v-if="account.picture || user.picture" type ="button">
-          <img :src="account.picture || user.picture" alt="account photo" height="86" class="rounded border-line mt-2 mb-3" />
+        <div v-if="account.picture || user.picture" type="button">
+          <img :src="account.picture || user.picture" alt="account photo" height="86"
+            class="rounded border-line mt-2 mb-3" />
         </div>
 
         <router-link :to="{ name: 'Home' }">
@@ -25,7 +26,8 @@
           <button class="btn mb-3 px-3 text-white border lighten-30 selectable">Account</button>
         </router-link>
 
-        <button class="btn btn-success mb-3 px-2 newEvent text-dark">New Event</button>
+        <button class="btn btn-success mb-3 px-2 newEvent text-dark" data-bs-toggle="modal"
+          data-bs-target="#newEventModal">New Event</button>
 
         <button class="btn border border-danger text-danger lighten-30 selectable text-uppercase px-1" @click="logout">
           logout
@@ -58,10 +60,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.border-line{
+.border-line {
   border: 1px solid #56c7fb;
 }
-.newEvent{
-  background-color:#79e7ab;
+
+.newEvent {
+  background-color: #79e7ab;
 }
 </style>
