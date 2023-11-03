@@ -17,17 +17,24 @@
             </span>
           </span>
           <p class="mt-3 mb-auto">{{ activeEvent.description }}</p>
-          <div class="">
-            <span class="d-flex justify-content-between align-items-center">
-              <p class="fs-4 eventTextColoring"><span class="spotsLeft">
-                  {{ activeEvent.capacity - activeEvent.ticketCount }}</span> spots left</p>
-              <span class="d-flex align-items-center text-warning border rounded py-1 px-2"
-                v-if="tickets.find(ticket => ticket.profileId == account.id)">
-                <p class="mb-0 text-center">Congratulations on <br> getting a ticket!</p>
-                <i class="fs-1 mdi mdi-exclamation-thick mdi-spin"></i>
-              </span>
-              <button class="btn d-flex align-items-center ticket px-2 shadow" @click="getTicket()">
-                Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
+          <div class="mt-4">
+            <span v-if="!activeEvent.isCanceled" class="d-flex justify-content-between align-items-center">
+              <p class="fs-4 eventTextColoring">
+                <span class="spotsLeft">{{ activeEvent.capacity - activeEvent.ticketCount }}</span> spots left
+                {{ activeEvent.capacity - activeEvent.ticketCount <= 0 ? ' - SOLD OUT!' : '' }} </p>
+                  <span class="d-flex align-items-center text-warning border rounded py-1 px-2"
+                    v-if="tickets.find(ticket => ticket.profileId == account.id)">
+                    <p class="mb-0 text-center">Congratulations on <br> getting a ticket!</p>
+                    <i class="fs-1 mdi mdi-exclamation-thick mdi-spin"></i>
+                  </span>
+                  <button :disabled="activeEvent.capacity - activeEvent.ticketCount <= 0"
+                    class="btn d-flex align-items-center ticket px-2 shadow" @click="getTicket()">
+                    Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
+            </span>
+            <span v-else class="d-flex justify-content-center">
+              <p class="rounded-pill border bg-danger fw-bold py-2 px-3">
+                EVENT CANCELLED
+              </p>
             </span>
           </div>
         </section>

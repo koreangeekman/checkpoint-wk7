@@ -1,24 +1,36 @@
 <template>
-  <section class="row"><div class="col-12"><p class="fs-3 sectionText">My Events ({{ events.length }})</p></div></section>
+  <section class="row my-3">
+    <div class="col-12">
+      <p class="fs-3 sectionText">My Events ({{ events.length }})</p>
+    </div>
+  </section>
 
-    <section v-if="events" class="row">
-      <div v-for="towerEvent in events" :key="towerEvent.id" class="col-3">
-        <div class="card m-3 p-0 greyBG">
-          <EventCard :towerEvent="towerEvent" />
-        </div>
+  <section v-if="events" class="row px-4">
+    <div v-for="towerEvent in events" :key="towerEvent.id" class="col-12 col-md-3">
+      <div class="card m-3 p-0 greyBG">
+        <EventCard :towerEvent="towerEvent" />
       </div>
-    </section>
-    <section v-else class="row"><div class="col-12 text-center sectionText">Loading... <i class="mdi mdi-tire mdi-spin"></i></div></section>
-    
-    <section class="row"><div class="col-12"><p class="fs-3 sectionText">Upcoming Events ({{ tickets.length }})</p></div></section>
-    <section v-if="tickets" class="row justify-content-center">
-      <div v-for="ticket in tickets" :key="ticket.id" class="col-12 col-md-11  col-lg-10 col-xxl-9">
-        <div class="card m-1 my-2 m-md-3 mx-md-5 greyBG">
-          <TicketCard :ticket="ticket" />
-        </div>
+    </div>
+  </section>
+  <section v-else class="row">
+    <div class="col-12 text-center sectionText">Loading... <i class="mdi mdi-tire mdi-spin"></i></div>
+  </section>
+
+  <section class="row mt-md-5">
+    <div class="col-12">
+      <p class="fs-3 sectionText">Upcoming Events ({{ tickets.length }})</p>
+    </div>
+  </section>
+  <section v-if="tickets" class="row justify-content-center">
+    <div v-for="ticket in tickets" :key="ticket.id" class="col-12 col-md-11  col-lg-10 col-xxl-9">
+      <div class="card m-1 my-2 m-md-3 mx-md-5 greyBG">
+        <TicketCard :ticket="ticket" />
       </div>
-    </section>
-    <section v-else class="row"><div class="col-12 text-center sectionText">Loading... <i class="mdi mdi-tire mdi-spin"></i></div></section>
+    </div>
+  </section>
+  <section v-else class="row">
+    <div class="col-12 text-center sectionText">Loading... <i class="mdi mdi-tire mdi-spin"></i></div>
+  </section>
 </template>
 
 <script>
@@ -57,14 +69,14 @@ export default {
       _getTicketsByAccountId();
     })
 
-      return {
-        account: computed(() => AppState.account),
-        events: computed(() => AppState.events),
-        tickets: computed(() => AppState.tickets),
-        
-      };
-    },
-    components: { EventCard, TicketCard }
+    return {
+      account: computed(() => AppState.account),
+      events: computed(() => AppState.events),
+      tickets: computed(() => AppState.tickets),
+
+    };
+  },
+  components: { EventCard, TicketCard }
 }
 </script>
 
@@ -73,16 +85,15 @@ img {
   max-width: 100px;
 }
 
-p{
+p {
   color: white;
 }
-.greyBG{
+
+.greyBG {
   background-color: #474c61;
 }
 
-.sectionText{
-  color:#79e7ab;
+.sectionText {
+  color: #79e7ab;
 }
-
-
 </style>

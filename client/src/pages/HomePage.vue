@@ -13,14 +13,14 @@
   <section class="row px-3">
     <div class="col-12 rounded shadow p-2 d-flex justify-content-evenly greyBG">
       <button class="btn text-white border" @click="changeType('')">ALL</button>
-      <button v-for="eventType in types" :key="eventType" class="btn text-white" @click="changeType()">
+      <button v-for="eventType in types" :key="eventType" class="btn text-white" @click="changeType(eventType)">
         {{ eventType.toUpperCase() }}
       </button>
     </div>
   </section>
 
   <section v-if="events.length > 0" class="row">
-    <div v-for="towerEvent in events" :key="towerEvent.id" class="col-3 p-0">
+    <div v-for="towerEvent in events" :key="towerEvent.id" class="col-6 col-md-3 p-0">
       <div class="card m-3 p-0 greyBG">
         <EventCard :towerEvent="towerEvent" />
       </div>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { logger } from "../utils/Logger";
 import { AppState } from "../AppState.js";
 import { towerEventsService } from "../services/TowerEventsService.js";
@@ -43,6 +43,8 @@ import EventCard from "../components/EventCard.vue";
 export default {
   setup() {
     const types = ['concert', 'convention', 'sport', 'digital']
+
+    const filteredType = ref('');
 
     async function _getEvents() {
       try {
@@ -57,8 +59,23 @@ export default {
     })
     return {
       types,
+      filteredType,
 
-      events: computed(() => AppState.events)
+      // events: computed(() => AppState.events),
+      events: computed(() => {
+        if (filteredType.value) {
+          return AppState.events.filter(
+            evnt => evnt.type == filteredType.value
+          );
+        } else {
+          return AppState.events
+        }
+      }),
+
+      changeType(eventType) {
+        logger.log('logged', eventType)
+        filteredType.value = eventType;
+      }
 
     }
   },

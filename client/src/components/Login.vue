@@ -29,7 +29,8 @@
         <button class="btn btn-success mb-3 px-2 newEvent text-dark" data-bs-toggle="modal"
           data-bs-target="#newEventModal">New Event</button>
 
-        <button class="btn border border-danger text-danger lighten-30 selectable text-uppercase px-1" @click="logout">
+        <button class="btn border border-danger text-danger lighten-30 selectable text-uppercase mt-5 px-1"
+          @click="logout">
           logout
           <i class="mdi mdi-logout"></i>
         </button>
