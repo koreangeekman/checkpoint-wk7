@@ -62,6 +62,7 @@ import { useRoute } from "vue-router";
 import ActiveEventCard from "../components/ActiveEventCard.vue";
 import { commentsService } from "../services/CommentsService";
 import CommentCard from "../components/CommentCard.vue";
+import Pop from "../utils/Pop";
 
 export default {
   setup() {
@@ -74,6 +75,8 @@ export default {
       }
       catch (error) {
         logger.error(error);
+        Pop.error(error);
+
       }
     }
 
@@ -84,6 +87,8 @@ export default {
       }
       catch (error) {
         logger.error(error);
+        Pop.error(error);
+
       }
     }
 
@@ -94,6 +99,8 @@ export default {
       }
       catch (error) {
         logger.error(error);
+        Pop.error(error);
+
       }
     }
 
@@ -122,6 +129,7 @@ export default {
         }
         catch (error) {
           logger.error(error);
+          Pop.error(error);
         }
       }
     };
