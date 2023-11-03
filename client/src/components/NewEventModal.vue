@@ -37,9 +37,9 @@
                   required max="1000000">
               </div>
               <div class="mx-3">
-                <label for="type">Event Type</label>
-                <select v-model="eventForm.type" name="type" id="type">
-                  <option v-for="eventType in types" :key="eventType" :value="eventType" class="form-control"> {{
+                <label for="eventType">Event Type</label>
+                <select v-model="eventForm.type" name="eventType" id="eventType" class="form-control" value="concert">
+                  <option v-for="eventType in types" :key="eventType" :value="eventType"> {{
                     eventType }}</option>
                 </select>
               </div>

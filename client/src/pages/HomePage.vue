@@ -18,15 +18,19 @@
       </button>
     </div>
   </section>
-  
-  <section class="row">
+
+  <section v-if="events.length > 0" class="row">
     <div v-for="towerEvent in events" :key="towerEvent.id" class="col-3 p-0">
       <div class="card m-3 p-0 greyBG">
         <EventCard :towerEvent="towerEvent" />
       </div>
     </div>
   </section>
-
+  <section v-else class="row">
+    <div class="col-12 text-center p-5">
+      <p class="fs-4 text-white">No events yet.. Hurry up and add one!</p>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -54,36 +58,37 @@ export default {
     return {
       types,
 
-      events: computed(()=> AppState.events)
-      
+      events: computed(() => AppState.events)
+
     }
   },
-  components: {EventCard}
+  components: { EventCard }
 }
 </script>
 
 <style scoped lang="scss">
-.banner{
+.banner {
   background-image: url(https://images.unsplash.com/photo-1526041092449-209d556f7a32?auto=format&fit=crop&q=80&w=1200&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D);
   background-position: center;
   background-size: cover;
   color: white;
 }
 
-.bgBlur{
+.bgBlur {
   background-color: #123456b9;
   backdrop-filter: blur(3px);
   width: fit-content;
 }
 
-.greyBG{
+.greyBG {
   background-color: #474c61;
 }
-.card{
+
+.card {
   border: 3px solid #474c61;
 }
 
-.border-line{
+.border-line {
   border: 1px solid #56c7fb;
 }
 </style>
