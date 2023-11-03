@@ -41,11 +41,11 @@ class TowerEventsService {
     return towerEvent
   }
 
-  async getEventsByAccountId(accountId) {
-    const towerEvents = await dbContext.TowerEvents.find({ accountId })
+  async getEventsByAccountId(creatorId) {
+    const towerEvents = await dbContext.TowerEvents.find({ creatorId })
       .populate('creator', 'name picture')
       .populate('ticketCount');
-    if (!towerEvents) { throw new BadRequest(`No towerEvents with ID: ${accountId}`) }
+    if (!towerEvents) { throw new BadRequest(`No towerEvents with ID: ${creatorId}`) }
     // logger.log('[TOWER-EVENTS SERVICE] getEventsByAccountId(): ', towerEvents);
     return towerEvents
   }
