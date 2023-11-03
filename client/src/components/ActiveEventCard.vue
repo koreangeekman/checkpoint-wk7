@@ -7,18 +7,18 @@
       </div>
       <div class="col-12 col-md-8 ps-2 pt-2 position-relative">
         <section class="text-white">
-          <span class="d-flex justify-content-between align-items-end">
+          <span class="d-flex flex-wrap justify-content-between align-items-end">
             <span class="d-block">
               <p class="mb-0 fs-3 fw-bold">{{ activeEvent.name }}</p>
               <p class="mb-0 fs-5">{{ activeEvent.location }}</p>
             </span>
             <span class="d-block">
-              <p class="mb-0 fs-5">{{ activeEvent.startDate.toLocaleDateString('fr-CA') }}</p>
+              <p class="mb-0">{{ activeEvent.startDate.toLocaleDateString('fr-CA') }}</p>
             </span>
           </span>
           <p class="mt-3 mb-auto">{{ activeEvent.description }}</p>
           <div class="mt-4">
-            <span v-if="!activeEvent.isCanceled" class="d-flex justify-content-between align-items-center">
+            <span v-if="!activeEvent.isCanceled" class="d-flex flex-wrap justify-content-between align-items-center">
               <p class="fs-4 eventTextColoring">
                 <span class="spotsLeft">{{ spotsLeft }}</span> spots left
                 {{ spotsLeft <= 0 ? ' - SOLD OUT!' : '' }} </p>
