@@ -1,5 +1,5 @@
 
-export class TowerEvent{
+export class TowerEvent {
   constructor(data) {
     this.id = data.id
     this.name = data.name
@@ -11,6 +11,7 @@ export class TowerEvent{
     this.startDate = data.startDate ? new Date(data.startDate) : null
     this.isCanceled = data.isCanceled
     this.type = data.type
+    this.await = false
     this.creatorId = data.creatorId
     this.creator = data.creator
   }

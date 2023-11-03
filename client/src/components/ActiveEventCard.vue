@@ -20,14 +20,14 @@
           <div class="mt-4">
             <span v-if="!activeEvent.isCanceled" class="d-flex justify-content-between align-items-center">
               <p class="fs-4 eventTextColoring">
-                <span class="spotsLeft">{{ activeEvent.capacity - activeEvent.ticketCount }}</span> spots left
-                {{ activeEvent.capacity - activeEvent.ticketCount <= 0 ? ' - SOLD OUT!' : '' }} </p>
+                <span class="spotsLeft">{{ spotsLeft }}</span> spots left
+                {{ spotsLeft <= 0 ? ' - SOLD OUT!' : '' }} </p>
                   <span class="d-flex align-items-center text-warning border rounded py-1 px-2"
                     v-if="tickets.find(ticket => ticket.profileId == account.id)">
                     <p class="mb-0 text-center">Congratulations on <br> getting a ticket!</p>
                     <i class="fs-1 mdi mdi-exclamation-thick mdi-spin"></i>
                   </span>
-                  <button :disabled="activeEvent.capacity - activeEvent.ticketCount <= 0"
+                  <button :disabled="spotsLeft <= 0 || activeEvent.await"
                     class="btn d-flex align-items-center ticket px-2 shadow" @click="getTicket()">
                     Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
             </span>
@@ -56,30 +56,35 @@ import { TowerEvent } from "../models/TowerEvent";
 import { ticketsService } from "../services/TicketsService.js";
 import { AppState } from "../AppState";
 import { towerEventsService } from "../services/TowerEventsService";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   props: { activeEvent: { type: TowerEvent } },
 
   setup(props) {
+    const route = useRoute();
     const router = useRouter();
 
     return {
       coverImg: computed(() => `url(${props.activeEvent.coverImg})`),
       account: computed(() => AppState.account),
       tickets: computed(() => AppState.tickets),
+      spotsLeft: computed(() => props.activeEvent.capacity - props.activeEvent.ticketCount),
 
       async getTicket() {
         try {
-          if (AppState.activeEvent.isCanceled) {
+          if (props.activeEvent.isCanceled) {
             Pop.error('Event was cancelled, cannot get a ticket')
             return
           }
-          if (AppState.activeEvent.capacity - AppState.activeEvent.ticketCount <= 0) {
+          if (this.spotsLeft <= 0) {
             Pop.error('Sorry, this event is sold out!')
             return
           }
+          props.activeEvent.await = true;
           await ticketsService.createTicket()
+          await towerEventsService.getEventById(route.params.eventId)
+          props.activeEvent.await = false;
           Pop.success('Congratulations! You got a ticket!')
         } catch (error) {
           logger.error(error);
