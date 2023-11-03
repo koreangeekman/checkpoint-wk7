@@ -74,17 +74,17 @@ export default {
       async getTicket() {
         try {
           if (props.activeEvent.isCanceled) {
-            Pop.error('Event was cancelled, cannot get a ticket')
+            Pop.error('Event was cancelled, cannot get a ticket');
             return
           }
           if (this.spotsLeft <= 0) {
-            Pop.error('Sorry, this event is sold out!')
+            Pop.error('Sorry, this event is sold out!');
             return
           }
-          props.activeEvent.await = true;
-          await ticketsService.createTicket()
-          await towerEventsService.getEventById(route.params.eventId)
-          props.activeEvent.await = false;
+          towerEventsService.toggleAwait();
+          await ticketsService.createTicket();
+          await towerEventsService.getEventById(route.params.eventId);
+          towerEventsService.toggleAwait();
           Pop.success('Congratulations! You got a ticket!')
         } catch (error) {
           logger.error(error);
@@ -94,7 +94,7 @@ export default {
 
       async cancelEvent() {
         try {
-          const yes = await Pop.confirm('Cancel this event?')
+          const yes = await Pop.confirm('Cancel this event?');
           if (!yes) { return }
           await towerEventsService.cancelEvent();
           // router.push({name:'Home'})
