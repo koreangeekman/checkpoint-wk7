@@ -56,14 +56,13 @@ import { TowerEvent } from "../models/TowerEvent";
 import { ticketsService } from "../services/TicketsService.js";
 import { AppState } from "../AppState";
 import { towerEventsService } from "../services/TowerEventsService";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 
 export default {
   props: { activeEvent: { type: TowerEvent } },
 
   setup(props) {
     const route = useRoute();
-    const router = useRouter();
 
     return {
       coverImg: computed(() => `url(${props.activeEvent.coverImg})`),

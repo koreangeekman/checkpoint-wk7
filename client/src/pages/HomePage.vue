@@ -12,8 +12,8 @@
   </section>
   <section class="row px-3">
     <div class="col-12 rounded shadow p-2 d-flex justify-content-evenly greyBG">
-      <button class="btn text-white border" @click="changeType('')">ALL</button>
-      <button v-for="eventType in types" :key="eventType" class="btn text-white" @click="changeType(eventType)">
+      <button class="btn text-white" :class="filteredType == '' ? 'border' : ''" @click="changeType('')">ALL</button>
+      <button v-for="eventType in types" :key="eventType" class="btn text-white" :class="filteredType == eventType? 'border' : ''" @click="changeType(eventType)">
         {{ eventType.toUpperCase() }}
       </button>
     </div>
