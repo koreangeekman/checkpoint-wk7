@@ -27,7 +27,7 @@
                     <p class="mb-0 text-center">Congratulations on <br> getting a ticket!</p>
                     <i class="fs-1 mdi mdi-exclamation-thick mdi-spin"></i>
                   </span>
-                  <button :disabled="spotsLeft <= 0 || activeEvent.await"
+                  <button :disabled="spotsLeft <= 0 || toggleAwait"
                     class="btn d-flex align-items-center ticket px-2 shadow" @click="getTicket()">
                     Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>
             </span>
@@ -63,8 +63,10 @@ export default {
 
   setup(props) {
     const route = useRoute();
+    const toggleAwait = false;
 
     return {
+      toggleAwait,
       coverImg: computed(() => `url(${props.activeEvent.coverImg})`),
       account: computed(() => AppState.account),
       tickets: computed(() => AppState.tickets),
@@ -81,9 +83,9 @@ export default {
             return
           }
           towerEventsService.toggleAwait();
-          await ticketsService.createTicket();
+          toggleAwait = true;
           await towerEventsService.getEventById(route.params.eventId);
-          towerEventsService.toggleAwait();
+          toggleAwait = false;
           Pop.success('Congratulations! You got a ticket!')
         } catch (error) {
           logger.error(error);

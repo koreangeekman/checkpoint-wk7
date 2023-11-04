@@ -5,8 +5,8 @@
       <p class="fw-bold">{{ comment.creator.name }}</p>
       <p class="">{{ comment.body }}</p>
     </span>
-    <i class="text-danger fs-3 mdi mdi-trash-can position-absolute" title="Delete Comment" type="button" 
-    v-if="comment.creatorId == account.id" @click="deleteComment(comment)"></i>
+    <i class="text-danger fs-3 mdi mdi-trash-can position-absolute" title="Delete Comment" type="button"
+      v-if="comment.creatorId == account.id" @click="deleteComment(comment)"></i>
   </div>
 </template>
 
@@ -21,21 +21,23 @@ import { commentsService } from "../services/CommentsService";
 
 export default {
   props: { comment: { type: Comment } },
-  
-  setup(){
+
+  setup() {
 
     return {
       account: computed(() => AppState.account),
 
       async deleteComment(commentObj) {
         try {
-          commentsService.deleteComment(commentObj);
+          const yes = await Pop.confirm('Delete this comment?');
+          if (!yes) { return }
+          await commentsService.deleteComment(commentObj);
         } catch (error) {
           logger.error(error);
           Pop.error(error);
         }
       }
-    
+
     }
   }
 };
@@ -43,12 +45,13 @@ export default {
 
 
 <style lang="scss" scoped>
-img{
+img {
   height: 5rem;
 }
-.mdi-trash-can{
-  top:7px;
-  right:11px;
+
+.mdi-trash-can {
+  top: 7px;
+  right: 11px;
   opacity: .8;
 }
 </style>

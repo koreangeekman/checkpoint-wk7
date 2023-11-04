@@ -13,10 +13,6 @@ class TowerEventsService {
     AppState.activeEvent = {};
   }
 
-  toggleAwait() {
-    AppState.activeEvent.await = !AppState.activeEvent.await;
-  }
-
   async getEvents() {
     const res = await api.get('api/events');
     const events = res.data.map(towerEvent => new TowerEvent(towerEvent));
