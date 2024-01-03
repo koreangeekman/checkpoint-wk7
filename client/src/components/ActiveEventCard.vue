@@ -20,7 +20,7 @@
           <div class="mt-4">
             <span v-if="!activeEvent.isCanceled" class="d-flex flex-wrap justify-content-between align-items-center">
               <p class="fs-4 eventTextColoring">
-                <span class="spotsLeft">{{ spotsLeft }}</span> spots left
+                <span class="spotsLeft">{{ spotsLeft }}</span> spot{{ spotsLeft > 1 ? 's' : '' }} left
                 {{ spotsLeft <= 0 ? ' - SOLD OUT!' : '' }} </p>
                   <span class="d-flex align-items-center text-warning border rounded py-1 px-2"
                     v-if="tickets.find(ticket => ticket.profileId == account.id)">

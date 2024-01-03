@@ -11,27 +11,27 @@
     </div>
 
     <div v-else>
-      <div class="d-flex flex-column align-items-center">
+      <div class="d-flex flex-row flex-md-column align-items-center">
 
-        <div v-if="account.picture || user.picture" type="button">
+        <div v-if="account.picture || user.picture">
           <img :src="account.picture || user.picture" alt="account photo" height="86"
             class="rounded border-line mt-2 mb-3" />
         </div>
 
         <router-link :to="{ name: 'Home' }">
-          <button class="btn mb-3 px-4 text-white border lighten-30 selectable">Home</button>
+          <button class="btn mb-md-3 ms-5 me-3 mx-md-0 px-md-4 text-white border lighten-30 selectable">Home</button>
         </router-link>
 
         <router-link :to="{ name: 'Account' }">
-          <button class="btn mb-3 px-3 text-white border lighten-30 selectable">Account</button>
+          <button class="btn mb-md-3 mx-3 mx-md-0 px-md-3 text-white border lighten-30 selectable">Account</button>
         </router-link>
 
-        <button class="btn btn-success mb-3 px-2 newEvent text-dark" data-bs-toggle="modal"
+        <button class="btn btn-success mb-md-3 mx-3 mx-md-0 px-md-2 newEvent text-dark" data-bs-toggle="modal"
           data-bs-target="#newEventModal">New Event</button>
 
-        <button class="btn border border-danger text-danger lighten-30 selectable text-uppercase mt-5 px-1"
-          @click="logout">
-          logout
+        <button
+          class="btn border border-danger text-danger lighten-30 selectable text-uppercase mt-md-5 ms-auto me-3 mx-md-0 px-md-1"
+          @click="logout"> logout
           <i class="mdi mdi-logout"></i>
         </button>
 
@@ -67,5 +67,13 @@ export default {
 
 .newEvent {
   background-color: #79e7ab;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.nav-link {
+  text-transform: uppercase;
 }
 </style>
