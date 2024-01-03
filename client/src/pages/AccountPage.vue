@@ -1,7 +1,7 @@
 <template>
   <section class="row my-3">
     <div class="col-12">
-      <p class="fs-3 sectionText">My Events ({{ events.length }})</p>
+      <p class="fs-3 sectionText">My Created Events ({{ events.length }})</p>
     </div>
   </section>
 
@@ -18,7 +18,7 @@
 
   <section class="row mt-md-5">
     <div class="col-12">
-      <p class="fs-3 sectionText">Upcoming Events ({{ tickets.length }})</p>
+      <p class="fs-3 sectionText">My Upcoming Event Tickets ({{ tickets.length }})</p>
     </div>
   </section>
   <section v-if="tickets" class="row justify-content-center">
