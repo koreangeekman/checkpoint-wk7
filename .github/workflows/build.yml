@@ -25,4 +25,4 @@ jobs:
         run: |
           docker buildx create --use
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker buildx build -t $DOCKER_USERNAME/$REPO_NAME:latest -f server/Dockerfile . --push
+          docker buildx build --platform linux/amd64,linux/arm64 -t $DOCKER_USERNAME/$REPO_NAME:latest -f server/Dockerfile . --push
