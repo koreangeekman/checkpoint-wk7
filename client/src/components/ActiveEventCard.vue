@@ -49,7 +49,7 @@
 
 
 <script>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { TowerEvent } from "../models/TowerEvent";
@@ -63,7 +63,7 @@ export default {
 
   setup(props) {
     const route = useRoute();
-    const toggleAwait = false;
+    const toggleAwait = ref(false);
 
     return {
       toggleAwait,
@@ -82,10 +82,11 @@ export default {
             Pop.error('Sorry, this event is sold out!');
             return
           }
-          towerEventsService.toggleAwait();
-          toggleAwait = true;
-          await towerEventsService.getEventById(route.params.eventId);
-          toggleAwait = false;
+          toggleAwait.value = true;
+          // await towerEventsService.getEventById(route.params.eventId);
+          // TODO Re-arrange logic & make seat-count reactive + pre-check before create
+          await ticketsService.createTicket();
+          toggleAwait.value = false;
           Pop.success('Congratulations! You got a ticket!')
         } catch (error) {
           logger.error(error);
