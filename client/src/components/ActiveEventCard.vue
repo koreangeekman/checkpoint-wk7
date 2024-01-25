@@ -20,7 +20,7 @@
           <div class="mt-4">
             <span v-if="!activeEvent.isCanceled" class="d-flex flex-wrap justify-content-between align-items-center">
               <p class="fs-4 eventTextColoring">
-                <span class="spotsLeft">{{ spotsLeft }}</span> spots left
+                <span class="spotsLeft">{{ spotsLeft }}</span> spot{{ spotsLeft > 1 ? 's' : '' }} left
                 {{ spotsLeft <= 0 ? ' - SOLD OUT!' : '' }} </p>
                   <span class="d-flex align-items-center text-warning border rounded py-1 px-2"
                     v-if="tickets.find(ticket => ticket.profileId == account.id)">
@@ -49,7 +49,7 @@
 
 
 <script>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { logger } from "../utils/Logger";
 import Pop from "../utils/Pop";
 import { TowerEvent } from "../models/TowerEvent";
@@ -63,7 +63,7 @@ export default {
 
   setup(props) {
     const route = useRoute();
-    const toggleAwait = false;
+    const toggleAwait = ref(false);
 
     return {
       toggleAwait,
@@ -82,10 +82,11 @@ export default {
             Pop.error('Sorry, this event is sold out!');
             return
           }
-          towerEventsService.toggleAwait();
-          toggleAwait = true;
-          await towerEventsService.getEventById(route.params.eventId);
-          toggleAwait = false;
+          toggleAwait.value = true;
+          // await towerEventsService.getEventById(route.params.eventId);
+          // TODO Re-arrange logic & make seat-count reactive + pre-check before create
+          await ticketsService.createTicket();
+          toggleAwait.value = false;
           Pop.success('Congratulations! You got a ticket!')
         } catch (error) {
           logger.error(error);

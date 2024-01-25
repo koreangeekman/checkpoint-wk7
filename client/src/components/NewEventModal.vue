@@ -76,7 +76,7 @@
                       <p class="mt-3 mb-4">{{ eventForm.description }}</p>
                       <span class="d-flex justify-content-between align-items-center">
                         <p v-if="eventForm.capacity" class="fs-4 eventTextColoring"><span class="spotsLeft">{{
-                          eventForm.capacity }}</span> spots left</p>
+                          eventForm.capacity }}</span> spot{{ eventForm.capacity > 1 ? 's' : '' }} left</p>
                         <p v-else></p>
                         <button class="btn d-flex align-items-center ticket px-2 shadow">
                           Grab a Ticket! <i class="ps-1 fs-1 mdi mdi-ticket-account"></i></button>

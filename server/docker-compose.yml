@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    image: koreangeekman/tower:latest
+    env_file:
+      - tower-env
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
